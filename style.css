@@ -1,0 +1,221 @@
+:root {
+  --bg-1: #0f172a;
+  --bg-2: #1e293b;
+  --panel: rgba(148, 163, 184, 0.08);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --x: #38bdf8;
+  --o: #f472b6;
+  --border: rgba(148, 163, 184, 0.22);
+  --gap: clamp(6px, 1.4vmin, 14px);
+  --radius: clamp(10px, 1.8vmin, 18px);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(120vmax 90vmax at 50% -20%, var(--bg-2), var(--bg-1) 60%),
+    var(--bg-1);
+  display: grid;
+  place-items: center;
+  padding: clamp(8px, 2vmin, 28px);
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+.app {
+  width: min(100%, 720px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.6vmin, 18px);
+}
+
+.head {
+  text-align: center;
+  line-height: 1.1;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(20px, 5vmin, 34px);
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  font-weight: 700;
+}
+
+.turn {
+  margin: 0.35em 0 0;
+  font-size: clamp(13px, 2.4vmin, 17px);
+  color: var(--muted);
+}
+
+.turn.win {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.mark-x {
+  color: var(--x);
+}
+
+.mark-o {
+  color: var(--o);
+}
+
+.score {
+  display: flex;
+  gap: var(--gap);
+  width: min(100%, 420px);
+}
+
+.score-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.4em 0.6em;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: clamp(12px, 2.2vmin, 16px);
+}
+
+.score-item .who {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.score-item .pts {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.15em;
+}
+
+.board {
+  --board: min(90vw, 56vh, 520px);
+  --board-gap: var(--gap);
+  --cell: calc((var(--board) - 2 * var(--board-gap)) / 3);
+  width: var(--board);
+  height: var(--board);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--board-gap);
+  font-size: calc(var(--cell) * 0.62);
+}
+
+.cell {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 120ms ease, transform 90ms ease, box-shadow 160ms ease;
+}
+
+.cell:not(:disabled):hover {
+  background: rgba(148, 163, 184, 0.16);
+}
+
+.cell:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--x);
+  outline-offset: 2px;
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell.x {
+  color: var(--x);
+}
+
+.cell.o {
+  color: var(--o);
+}
+
+.cell.win {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35), 0 0 26px rgba(56, 189, 248, 0.28) inset;
+}
+
+.foot {
+  display: flex;
+  gap: var(--gap);
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn {
+  appearance: none;
+  font: inherit;
+  font-size: clamp(12px, 2.2vmin, 16px);
+  font-weight: 600;
+  padding: 0.6em 1.2em;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 120ms ease, transform 90ms ease, opacity 120ms ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--x);
+  outline-offset: 2px;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+  border-color: transparent;
+  color: #04202e;
+}
+
+.btn.primary:hover {
+  background: linear-gradient(180deg, #5cc9fa, #0ea5e9);
+}
+
+.btn.ghost {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.btn.ghost:hover {
+  background: rgba(148, 163, 184, 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell,
+  .btn {
+    transition: none;
+  }
+}

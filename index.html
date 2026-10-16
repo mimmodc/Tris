@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>TRIS</title>
+    <meta name="description" content="Gioco del tris (tic-tac-toe) installabile su ChromeOS." />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" type="image/png" href="./icon-192.png" />
+    <link rel="apple-touch-icon" href="./icon-192.png" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="head">
+        <h1 class="title">TRIS</h1>
+        <p class="turn" id="turn" role="status" aria-live="polite">
+          Tocca a <strong class="mark-x">X</strong>
+        </p>
+      </header>
+
+      <section class="score" aria-label="Punteggio">
+        <div class="score-item">
+          <span class="who mark-x">X</span>
+          <span class="pts" id="score-x">0</span>
+        </div>
+        <div class="score-item">
+          <span class="who mark-o">O</span>
+          <span class="pts" id="score-o">0</span>
+        </div>
+        <div class="score-item">
+          <span class="who">Pari</span>
+          <span class="pts" id="score-d">0</span>
+        </div>
+      </section>
+
+      <div class="board" id="board" role="grid" aria-label="Tabellone del tris"></div>
+
+      <footer class="foot">
+        <button id="new" class="btn primary" type="button">Nuova partita</button>
+        <button id="reset" class="btn ghost" type="button">Azzera punteggio</button>
+      </footer>
+    </main>
+
+    <script type="module" src="./ui.js"></script>
+  </body>
+</html>
