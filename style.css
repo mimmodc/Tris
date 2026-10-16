@@ -7,13 +7,23 @@
   --x: #38bdf8;
   --o: #f472b6;
   --border: rgba(148, 163, 184, 0.22);
-  --gap: clamp(6px, 1.4vmin, 14px);
-  --radius: clamp(10px, 1.8vmin, 18px);
+  --gap: clamp(5px, 1.2vmin, 12px);
+  --radius: clamp(9px, 1.6vmin, 16px);
+  --board-max: 520px;
   color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/*
+ * Fondamentale: `.net`, `.difficulty` ecc. hanno `display: flex`, che come
+ * regola d'autore VINCE sull'attributo `hidden` del browser. Senza questa
+ * riga i pannelli nascosti da JS resterebbero visibili.
+ */
+[hidden] {
+  display: none !important;
 }
 
 html,
@@ -30,35 +40,52 @@ body {
     var(--bg-1);
   display: grid;
   place-items: center;
-  padding: clamp(8px, 2vmin, 28px);
+  padding: clamp(6px, 1.2vmin, 16px);
+  /* la seconda riga vince dove supportata: altezza reale della finestra */
+  height: 100%;
+  height: 100dvh;
   overscroll-behavior: none;
   user-select: none;
 }
 
+/*
+ * L'app riempie tutta l'altezza disponibile e NON scorre: l'unico elemento
+ * elastico e' il tabellone, che si prende lo spazio che avanza. Cosi' su
+ * qualunque finestra (anche bassa, come il Chromebook 314) si vede tutto.
+ */
 .app {
   width: min(100%, 720px);
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(6px, 1.6vmin, 18px);
+  justify-content: center;
+  gap: var(--gap);
 }
 
+/* Titolo e turno sulla stessa riga: meno altezza sprecata. */
 .head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.1em 0.9em;
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(20px, 5vmin, 34px);
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;
+  font-size: clamp(16px, 3.4vmin, 26px);
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
   font-weight: 700;
 }
 
 .turn {
-  margin: 0.35em 0 0;
-  font-size: clamp(13px, 2.4vmin, 17px);
+  margin: 0;
+  font-size: clamp(12px, 2.1vmin, 16px);
   color: var(--muted);
 }
 
@@ -86,12 +113,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5em;
-  padding: 0.4em 0.6em;
+  gap: 0.45em;
+  padding: 0.22em 0.5em;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: clamp(12px, 2.2vmin, 16px);
+  font-size: clamp(11px, 1.9vmin, 15px);
 }
 
 .score-item .who {
@@ -110,14 +137,14 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--gap);
-  width: min(100%, 420px);
+  gap: clamp(4px, 1vmin, 10px);
+  width: min(100%, 520px);
 }
 
 .modes {
   display: flex;
-  gap: 3px;
-  padding: 3px;
+  gap: 2px;
+  padding: 2px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -126,13 +153,13 @@ body {
 .seg {
   appearance: none;
   font: inherit;
-  font-size: clamp(12px, 2.1vmin, 15px);
+  font-size: clamp(11px, 1.9vmin, 14px);
   font-weight: 600;
   color: var(--muted);
   background: transparent;
   border: 0;
   border-radius: calc(var(--radius) - 4px);
-  padding: 0.45em 0.9em;
+  padding: 0.34em 0.68em;
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease;
 }
@@ -155,8 +182,8 @@ body {
 .difficulty {
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  font-size: clamp(12px, 2.1vmin, 15px);
+  gap: 0.4em;
+  font-size: clamp(11px, 1.9vmin, 14px);
   color: var(--muted);
 }
 
@@ -169,11 +196,11 @@ body {
   background-color: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 0.4em 1.9em 0.4em 0.7em;
+  padding: 0.32em 1.7em 0.32em 0.6em;
   cursor: pointer;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
     linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 14px) center, calc(100% - 9px) center;
+  background-position: calc(100% - 13px) center, calc(100% - 8px) center;
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
 }
@@ -188,45 +215,48 @@ body {
   background: #e2e8f0;
 }
 
+/* Pannello "in rete": tutto su una riga quando possibile. */
 .net {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5em;
-  width: min(100%, 420px);
-  padding: 0.7em;
+  justify-content: center;
+  gap: 0.45em 0.7em;
+  width: min(100%, 520px);
+  padding: 0.4em 0.6em;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
 
-.net-actions {
+.net-actions,
+.net-room {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--gap);
+  gap: 0.45em 0.7em;
 }
 
 .net-join {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   margin: 0;
 }
 
 .net-join input {
   appearance: none;
   font: inherit;
-  font-size: clamp(12px, 2.1vmin, 15px);
+  font-size: clamp(11px, 1.9vmin, 14px);
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  width: 7.5em;
+  width: 6.4em;
   color: var(--text);
   background: rgba(15, 23, 42, 0.55);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 0.5em 0.7em;
+  padding: 0.4em 0.55em;
 }
 
 .net-join input::placeholder {
@@ -241,52 +271,45 @@ body {
   outline-offset: 2px;
 }
 
-.net-room {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4em;
-  text-align: center;
-}
-
-.net-code-label {
+.net-code-label,
+.net-hint {
   margin: 0;
-  font-size: clamp(11px, 2vmin, 14px);
+  font-size: clamp(11px, 1.9vmin, 14px);
   color: var(--muted);
 }
 
 .net-code {
   margin: 0;
-  font-size: clamp(22px, 5.4vmin, 34px);
+  font-size: clamp(15px, 3vmin, 22px);
   font-weight: 700;
-  letter-spacing: 0.22em;
-  text-indent: 0.22em;
+  letter-spacing: 0.18em;
+  text-indent: 0.18em;
   color: var(--x);
   font-variant-numeric: tabular-nums;
   user-select: all;
-}
-
-.net-hint {
-  margin: 0;
-  font-size: clamp(11px, 2vmin, 14px);
-  color: var(--muted);
 }
 
 .net-hint.error {
   color: var(--o);
 }
 
+/*
+ * Il tabellone: si prende lo spazio verticale che avanza e resta quadrato
+ * grazie ad aspect-ratio. I limiti (max-height) evitano che, su finestre
+ * larghe e basse o strette e alte, esca dai bordi.
+ */
 .board {
-  --board: min(90vw, 50vh, 500px);
-  --board-gap: var(--gap);
-  --cell: calc((var(--board) - 2 * var(--board-gap)) / 3);
-  width: var(--board);
-  height: var(--board);
+  flex: 1 1 0;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  max-height: min(100%, 92vw, var(--board-max));
+  max-width: min(100%, var(--board-max));
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: var(--board-gap);
-  font-size: calc(var(--cell) * 0.62);
+  gap: var(--gap);
+  container-type: inline-size;
 }
 
 .cell {
@@ -296,13 +319,21 @@ body {
   border-radius: var(--radius);
   color: var(--text);
   font: inherit;
-  font-size: 1em;
+  /* ripiego se le container query non sono supportate */
+  font-size: clamp(22px, 8vmin, 84px);
   font-weight: 700;
   line-height: 1;
   display: grid;
   place-items: center;
   cursor: pointer;
   transition: background 120ms ease, transform 90ms ease, box-shadow 160ms ease;
+}
+
+/* Il segno e' proporzionale al lato del tabellone, qualunque sia la finestra. */
+@supports (font-size: 1cqw) {
+  .cell {
+    font-size: 20cqw;
+  }
 }
 
 .cell:not(:disabled):hover {
@@ -347,9 +378,9 @@ body {
 .btn {
   appearance: none;
   font: inherit;
-  font-size: clamp(12px, 2.2vmin, 16px);
+  font-size: clamp(11px, 1.9vmin, 15px);
   font-weight: 600;
-  padding: 0.6em 1.2em;
+  padding: 0.45em 1em;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   cursor: pointer;

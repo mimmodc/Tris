@@ -1,5 +1,5 @@
 /* Service worker: abilita il funzionamento offline e l'installazione come app. */
-const CACHE = 'tris-v3';
+const CACHE = 'tris-v4';
 
 const ASSETS = [
   './',

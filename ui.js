@@ -126,7 +126,7 @@ function updateTurn() {
 
   if (mode === 'net') {
     if (netPhase === 'idle') {
-      setTurn('Crea una partita oppure unisciti con un codice');
+      setTurn('Crea o unisciti a una partita');
       return;
     }
     if (netPhase === 'closed') {
@@ -404,7 +404,7 @@ async function hostGame() {
     netPlayer = net.getPlayer();
     netOpponent = netPlayer === 'X' ? 'O' : 'X';
     netPhase = 'pending';
-    showNetRoom(link.code, 'Comunica il codice all&#8217;altra persona e attendi.');
+    showNetRoom(link.code, 'Comunica il codice e attendi.');
     updateTurnLabels();
     updateTurn();
   } catch (error) {
