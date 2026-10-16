@@ -105,8 +105,179 @@ body {
   font-size: 1.15em;
 }
 
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  width: min(100%, 420px);
+}
+
+.modes {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.seg {
+  appearance: none;
+  font: inherit;
+  font-size: clamp(12px, 2.1vmin, 15px);
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--radius) - 4px);
+  padding: 0.45em 0.9em;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.seg:hover {
+  color: var(--text);
+}
+
+.seg[aria-pressed="true"] {
+  background: rgba(56, 189, 248, 0.18);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.4);
+}
+
+.seg:focus-visible {
+  outline: 2px solid var(--x);
+  outline-offset: 2px;
+}
+
+.difficulty {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: clamp(12px, 2.1vmin, 15px);
+  color: var(--muted);
+}
+
+.difficulty select {
+  appearance: none;
+  font: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: var(--text);
+  background-color: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4em 1.9em 0.4em 0.7em;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 14px) center, calc(100% - 9px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.difficulty select:focus-visible {
+  outline: 2px solid var(--x);
+  outline-offset: 2px;
+}
+
+.difficulty option {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+.net {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  width: min(100%, 420px);
+  padding: 0.7em;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.net-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+}
+
+.net-join {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+}
+
+.net-join input {
+  appearance: none;
+  font: inherit;
+  font-size: clamp(12px, 2.1vmin, 15px);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  width: 7.5em;
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5em 0.7em;
+}
+
+.net-join input::placeholder {
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.net-join input:focus-visible {
+  outline: 2px solid var(--x);
+  outline-offset: 2px;
+}
+
+.net-room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+  text-align: center;
+}
+
+.net-code-label {
+  margin: 0;
+  font-size: clamp(11px, 2vmin, 14px);
+  color: var(--muted);
+}
+
+.net-code {
+  margin: 0;
+  font-size: clamp(22px, 5.4vmin, 34px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  color: var(--x);
+  font-variant-numeric: tabular-nums;
+  user-select: all;
+}
+
+.net-hint {
+  margin: 0;
+  font-size: clamp(11px, 2vmin, 14px);
+  color: var(--muted);
+}
+
+.net-hint.error {
+  color: var(--o);
+}
+
 .board {
-  --board: min(90vw, 56vh, 520px);
+  --board: min(90vw, 50vh, 500px);
   --board-gap: var(--gap);
   --cell: calc((var(--board) - 2 * var(--board-gap)) / 3);
   width: var(--board);

@@ -22,16 +22,59 @@
 
       <section class="score" aria-label="Punteggio">
         <div class="score-item">
-          <span class="who mark-x">X</span>
+          <span class="who mark-x" id="who-x">X</span>
           <span class="pts" id="score-x">0</span>
         </div>
         <div class="score-item">
-          <span class="who mark-o">O</span>
+          <span class="who mark-o" id="who-o">O</span>
           <span class="pts" id="score-o">0</span>
         </div>
         <div class="score-item">
           <span class="who">Pari</span>
           <span class="pts" id="score-d">0</span>
+        </div>
+      </section>
+
+      <div class="controls">
+        <div class="modes" role="group" aria-label="Modalità di gioco">
+          <button type="button" class="seg" id="mode-pvp" aria-pressed="true">2 giocatori</button>
+          <button type="button" class="seg" id="mode-cpu" aria-pressed="false">Computer</button>
+          <button type="button" class="seg" id="mode-net" aria-pressed="false">In rete</button>
+        </div>
+        <label class="difficulty" id="difficulty-field" hidden>
+          Difficoltà
+          <select id="difficulty">
+            <option value="easy">Facile</option>
+            <option value="medium" selected>Media</option>
+            <option value="hard">Difficile</option>
+          </select>
+        </label>
+      </div>
+
+      <section class="net" id="net-panel" hidden aria-label="Partita in rete">
+        <div class="net-actions" id="net-actions">
+          <button type="button" class="btn primary" id="net-host">Crea partita</button>
+          <form class="net-join" id="net-join-form">
+            <input
+              id="net-code"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              autocapitalize="characters"
+              spellcheck="false"
+              maxlength="7"
+              placeholder="Codice"
+              aria-label="Codice partita"
+            />
+            <button type="submit" class="btn ghost">Unisciti</button>
+          </form>
+        </div>
+
+        <div class="net-room" id="net-room" hidden>
+          <p class="net-code-label">Codice partita</p>
+          <p class="net-code" id="net-code-value">------</p>
+          <p class="net-hint" id="net-hint"></p>
+          <button type="button" class="btn ghost" id="net-leave">Esci</button>
         </div>
       </section>
 

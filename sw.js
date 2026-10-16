@@ -1,5 +1,5 @@
 /* Service worker: abilita il funzionamento offline e l'installazione come app. */
-const CACHE = 'tris-v1';
+const CACHE = 'tris-v3';
 
 const ASSETS = [
   './',
@@ -7,6 +7,12 @@ const ASSETS = [
   './style.css',
   './ui.js',
   './game.js',
+  './ai.js',
+  './net.js',
+  './netgame.js',
+  './protocol.js',
+  './room.js',
+  './crypto.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
